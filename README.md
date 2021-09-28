@@ -3,13 +3,22 @@
 ## Prerequisites
 
 This Python application requires installation of the requirements.txt file.
+
 This can be done with `pip3 install -r requirements.txt`.
 
 ## Example usage
 
-The web application allows for some interaction with the user providing sessionid and coordinates data.
+Start the web application by running the command.
 
 ```python3 app.py ```
+
+In the terminal the server address should be provided.
+
+The application allows for some interaction with the user providing:
+- sessionid
+- longitude
+- latitude
+- date
 
 The list of locations can be saved as a CSV file at output.csv
 
