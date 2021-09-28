@@ -24,7 +24,7 @@ userMap = open('./map.html', 'r').read()
 app.layout = html.Div([html.H1('search-by-location'),
                        html.Div([
                            html.Label('Enter sessionid:  '),
-                           dcc.Input(value="2911643484%3ATLE4oPjlAEJuwv%3A15", type='string'
+                           dcc.Input(value="3888090946%3AhdKd2fA8d72dqD%3A16", type='string'
                                       , id='sessionid', size = 40)
                         ]),
                         html.Div([
