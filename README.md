@@ -2,13 +2,16 @@
 
 ## Prerequisites
 
-This Python application requires `requests`, `numpy`, and `pandas` to be properly installed. This can be done with `pip3 install requests numpy pandas`.
+This Python application requires installation of the requirements.txt file.
+This can be done with `pip3 install -r requirements.txt`.
 
 ## Example usage
 
-The following command will search for Instagram locations nearby the coordinates 32.22 N, 110.97 W (downtown Tucson, Arizona.) The list of locations is saved as a CSV file at "locs.csv".
+The web application allows for some interaction with the user providing sessionid and coordinates data.
 
-```python3 instagram-locations.py --session "<session-id-token>" --lat 32.22 --lng -110.97 --csv locs.csv```
+```python3 app.py ```
+
+The list of locations can be saved as a CSV file at output.csv
 
 Note that this requires an Instagram session ID in order to work! See below for how to obtain one from your account.
 
@@ -30,20 +33,7 @@ it's worth adding a couple of days to your filter to make sure you capture all r
 even multiple years older).
 
 ### Other output formats
-
-Using the `--json <output-location>` command line argument, the list can be saved as a JSON file, almost identical to the raw API response.
-
-Using the `--geojson <output-location>` command line argument, the list can be saved as a GeoJSON file for other geospatial applications.
-
-Using the `--ids <output-location>` command line argument, all the found location IDs are output, suitable to pass into another tool, like [instagram-scraper](https://github.com/arc298/instagram-scraper).
-
-Using the `--map <output-location>` command line argument, a simple Leaflet map is made to visualize the locations of the returned points.
-
-![Example of map visualization](docs/map-example.png)
-
-Multiple types of output can be generated. For example, the following command will search for Instagram locations, save the JSON list, a CSV file, and a map for viewing the locations visually.
-
-```python3 instagram-locations.py --session "3888090946%3AhdKd2fA8d72dqD%3A16" --lat 32.22 --lng -110.97 --json locs.json --csv locs.csv --map map.html```
+To do
 
 ## Sample Usage with `instagram-scraper`
 The ID list generated with the `--ids` flag can be passed into `instagram-scraper` to pull down image metadata.
