@@ -4,7 +4,7 @@ from dash import html
 from dash import dcc
 from dash.dependencies import Input, Output, State
 import dash_auth
-import pandas as pd
+from pandas.io.json import json_normalize
 import importlib
 insta = importlib.import_module("instagram-locations")
 
@@ -25,16 +25,22 @@ app.layout = html.Div([html.H1('search-by-location'),
                        html.Div([
                            html.Label('Enter sessionid:  '),
                            dcc.Input(value="3888090946%3AhdKd2fA8d72dqD%3A16", type='string'
-                                      , id='sessionid', size = 40)
+                                      , id='sessionid', size = 40,
+                                     style={"margin-left": "2px"})
                         ]),
                         html.Div([
-                           html.Label('Enter latitude and longitude:  '),
-                            dcc.Input(value=32.22, type='number', id='latitude'),
+                           html.Label('Enter latitude:  '),
+                            dcc.Input(value=32.22, type='number', id='latitude',
+                                      style={"margin-left": "13px"})
+                        ]),
+                        html.Div([
+                           html.Label('Enter longitude:  '),
                             dcc.Input(value=-110.97, type='number', id='longitude')
                         ]),
                         html.Div([
                            html.Label('Enter Date:  '),
-                            dcc.Input(value="2020-06-09", type='date', id='user_date')
+                            dcc.Input(value="2020-06-09", type='date', id='user_date'
+                                      , style={"margin-left": "31px"})
                         ]),
                        html.Div([
                             html.Button('Submit', id='submit-val', n_clicks=0)
@@ -45,7 +51,7 @@ app.layout = html.Div([html.H1('search-by-location'),
                                     children=[html.Label(id="loading-output")]
                         ),
                         html.Div([
-                            html.Button("Download CSV", id="btn_csv"),
+                            html.Button("Download CSV", id="btn_csv", style={"margin-top": "10px"}),
                             dcc.Download(id="download-loc"),
                             dcc.Store(id='location-val')
                         ]),
@@ -96,7 +102,7 @@ def create_map(locations, sessionid, latitude, longitude, user_date):
         user_map = open('map.html', 'w')
         user_map.write(viz)
         user_map.close()
-        #user_map = open('map.html', 'r').read()
+        user_map = open('map.html', 'r').read()
         return user_map
 
 # add a callback to download location data as csv
@@ -108,7 +114,7 @@ def create_map(locations, sessionid, latitude, longitude, user_date):
 )
 def download(n_clicks, locations):
     try:
-        df = pd.read_json(locations)
+        df = json_normalize(locations)
         return dcc.send_data_frame(df.to_csv, "output.csv")
     except ValueError:
         error_msg = "ERROR: Dataframe empty. Check location is not None due to sessionid error."
