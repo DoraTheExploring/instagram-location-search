@@ -77,7 +77,7 @@ def create_map(n_clicks, sessionid, latitude, longitude, user_date):
     except KeyError:
         print("ERROR: KeyError whilst accessing location data.")
         return_code = "KeyError - Refresh sessionid: {} ".format(sessionid)
-        locations = None #{'Error': 'Investigate'}
+        locations = None
     return return_code, locations
 
 
