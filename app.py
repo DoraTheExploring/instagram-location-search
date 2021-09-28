@@ -7,7 +7,7 @@ import dash_auth
 import pandas as pd
 import importlib
 insta = importlib.import_module("instagram-locations")
-import time
+
 # read credentials from file
 with open('config', 'r') as cred:
     CREDENTIALS = cred.read().split(',')
@@ -69,8 +69,9 @@ def create_map(n_clicks, sessionid, latitude, longitude, user_date):
         locations = insta.get_fuzzy_locations(float(latitude), float(longitude), cookie)
         return_code = "Updated for: {} | {} | {} | {}".format(sessionid, latitude, longitude, user_date)
     except KeyError:
+        print("ERROR: KeyError whilst accessing location data.")
         return_code = "KeyError - Refresh sessionid: {} ".format(sessionid)
-        locations = {'Error':'Investigate'}
+        locations = None #{'Error': 'Investigate'}
     return return_code, locations
 
 
@@ -84,16 +85,19 @@ def create_map(n_clicks, sessionid, latitude, longitude, user_date):
      State(component_id='user_date', component_property='value')],
     prevent_initial_call=True,)
 def create_map(locations, sessionid, latitude, longitude, user_date):
-    template = insta.Template(insta.html_template)
-    date_var = ''
-    if user_date is not None:
-        date_var = '?max_id=' + insta.encode_date(user_date)
-    viz = template.substitute(lat=latitude, lng=longitude, locs=json.dumps(insta.make_geojson(locations)), date_var=date_var)
-    user_map = open('map.html', 'w')
-    user_map.write(viz)
-    user_map.close()
-    #user_map = open('map.html', 'r').read()
-    return user_map
+    if locations is None:
+        return None
+    else:
+        template = insta.Template(insta.html_template)
+        date_var = ''
+        if user_date is not None:
+            date_var = '?max_id=' + insta.encode_date(user_date)
+        viz = template.substitute(lat=latitude, lng=longitude, locs=json.dumps(insta.make_geojson(locations)), date_var=date_var)
+        user_map = open('map.html', 'w')
+        user_map.write(viz)
+        user_map.close()
+        #user_map = open('map.html', 'r').read()
+        return user_map
 
 # add a callback to download location data as csv
 @app.callback(
@@ -103,12 +107,11 @@ def create_map(locations, sessionid, latitude, longitude, user_date):
     prevent_initial_call=True,
 )
 def download(n_clicks, locations):
-    #df = json_normalize(locations)
     try:
         df = pd.read_json(locations)
         return dcc.send_data_frame(df.to_csv, "output.csv")
     except ValueError:
-        error_msg = "ERROR: Dataframe empty. Check location logs"
+        error_msg = "ERROR: Dataframe empty. Check location is not None due to sessionid error."
         return dict(content=error_msg, filename="error.txt")
 
 if __name__ == "__main__":
