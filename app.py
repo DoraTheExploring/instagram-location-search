@@ -18,7 +18,7 @@ auth = dash_auth.BasicAuth(app, {CREDENTIALS[0]: CREDENTIALS[1]})
 server = app.server
 
 # base map from examples list on github
-userMap = open('./map.html', 'r').read()
+userMap = open('./docs/map.html', 'r').read()
 
 # define app layout
 app.layout = html.Div([html.H1('search-by-location'),

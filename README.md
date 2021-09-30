@@ -20,11 +20,11 @@ The application allows for some interaction with the user providing:
 - latitude
 - date
 
-![Login step](loc-1.gif)
+![Login step](docs/loc-1.gif)
 
 The list of locations can be saved as a CSV file at output.csv
 
-![View and download](loc-2.gif)
+![View and download](docs/loc-2.gif)
 
 Note that this requires an Instagram session ID in order to work! See below for how to obtain one from your account.
 
